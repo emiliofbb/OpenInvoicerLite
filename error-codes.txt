@@ -1,0 +1,5 @@
+ER10 = Error while updating a record. 
+ER11 = Error while deleting a record.
+ER12 = Error while inserting a record.
+ER01 = Validation error in any model.
+ER20 = Error missing input information.

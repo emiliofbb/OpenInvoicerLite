@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="./style/root.css" />
+    <link rel="stylesheet" href="./style/main.css" />
+    <title>OIL</title>
+  </head>
+  <body>
+    <span class="division-line"></span>
+    <header>
+      <h1>OIL</h1>
+    </header>
+    <section class="documents-section">
+      <div id="lasts-documents-container" class="lasts-invoices-container"></div>
+    </section>
+    <section class="buttons-container">
+      <button
+        id="new-invoice"
+        class="btn-invoice"
+        onclick="openNewInvoiceWindow()"
+      >
+        Nueva Factura
+      </button>
+      <button
+        id="company-info"
+        class="btn-invoice"
+        onclick="openCompanyInfoWindow()"
+      >
+        Información de la Empresa
+      </button>
+      <!--<button id="all-invoices" class="btn-invoice">Todas las facturas</button>-->
+    </section>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
