@@ -2,36 +2,28 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <link rel="stylesheet" href="./style/root.css" />
-    <link rel="stylesheet" href="./style/main.css" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self';">
+    <link rel="stylesheet" href="./styles/root.css" />
+    <link rel="stylesheet" href="./styles/main.css" />
     <title>OIL</title>
   </head>
   <body>
     <span class="division-line"></span>
     <header>
-      <h1>OIL</h1>
+        <div class="header-section">
+            <h1>OIL</h1>
+        </div>
+        <div class="header-section">
+            <button id="companies-btn" class="header-btn">Empresas</button>
+            <button id="customers-btn" class="header-btn">Clientes</button>
+            <button id="products-btn" class="header-btn">Productos</button>
+            <button id="config-btn" class="header-btn">Configuracion</button>
+        </div>
     </header>
-    <section class="documents-section">
-      <div id="lasts-documents-container" class="lasts-invoices-container"></div>
-    </section>
-    <section class="buttons-container">
-      <button
-        id="new-invoice"
-        class="btn-invoice"
-        onclick="openNewInvoiceWindow()"
-      >
-        Nueva Factura
-      </button>
-      <button
-        id="company-info"
-        class="btn-invoice"
-        onclick="openCompanyInfoWindow()"
-      >
-        Información de la Empresa
-      </button>
-      <!--<button id="all-invoices" class="btn-invoice">Todas las facturas</button>-->
-    </section>
 
-    <script src="./app.js"></script>
+    <div id="magical-container">
+        
+    </div>
+    <script src="../renderer_scripts/main_renderer.js"></script>
   </body>
 </html>

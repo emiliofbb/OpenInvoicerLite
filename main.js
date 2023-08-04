@@ -1,15 +1,15 @@
 const { app, BrowserWindow, ipcMain, dialog } = require("electron");
 const path = require("path");
 const fs = require("fs");
-const { createCompany, getCompany } = require("./db/company");
-const { getAllDocuments, getDocument, createDocument, documentIsValid, updateDocument } = require("./db/document");
-const { createAddress } = require("./utils/Addressify");
 const { createTablesIfNotExists } = require("./db/createTablesIfNotExists");
 const { initIPCListeners } = require("./ipc_handlers/initIPCListeners");
+const Stack = require("./utils/Stack");
 
 const pathToDB = path.join(app.getPath('userData'), 'oil.db');
 const db = require('better-sqlite3')(pathToDB);
 createTablesIfNotExists(db);
+
+const historyStack = new Stack;
 
 //Manage first boot problems
 if (require("electron-squirrel-startup")) app.quit();
@@ -21,27 +21,6 @@ const tablesCreated = createTablesIfNotExists(db);
 if (!tablesCreated) {
     // TODO: if not created show the problem to the user.
     app.quit();
-}
-
-function handleSaveCompanyInfo(event, args) {
-    try {
-        // TODO: get id from method and send it back to view
-        createCompany(db, args);
-        return {
-            error: false,
-            description: "Información guardada correctamente.",
-        };
-    } catch(Err) {
-        return {
-            error: true,
-            description: "Error en el guardado. Inténtelo de nuevo más tarde.",
-        };
-    }
-
-}
-
-function getCompanyInfo(event, args) {
-    return getCompany(db, 1);
 }
 
 async function handleLogoSelection(event, args) {
@@ -65,18 +44,7 @@ async function handleLogoSelection(event, args) {
     const logoBase64 = fs.readFileSync(rest).toString("base64");
 }
 
-async function handleOpenWindow(event, args) {
-    createWindow(args.window, args.dependencies);
-}
-
 function saveInvoice(args) {
-    if (args.id !== -1) {
-        try {
-            createDocument(db, args);    
-        } catch (Err) {
-            
-        }
-    } else {
         const today = new Date();
         const yyyy = today.getFullYear();
         let mm = today.getMonth() + 1; // Months start at 0!
@@ -86,36 +54,6 @@ function saveInvoice(args) {
         if (mm < 10) mm = "0" + mm;
         args.creationDate = dd + "/" + mm + "/" + yyyy;
         args.id = id;
-    }
-
-    if (mainWin) {
-        mainWin.webContents.send("load-invoices", loadInvoices());
-    }
-
-    return {
-        id: args.id,
-        error: false,
-        description: "Documento guardado correctamente.",
-    };
-}
-
-async function handleSaveInvoice(event, args) {
-    return saveInvoice(args);
-}
-
-async function generateInvoice(event, document) {
-    if (!document.id) {
-        return {error: "El documento necesita un identificador para poder exportarse. Hable con un tecnico."};
-    }
-    if (document.id === -1) {
-        createDocument(db, document);
-    } else {
-        updateDocument(db, document);
-    }
-}
-
-function loadInvoices() {
-    return getAllDocuments(db);
 }
 
 const createWindow = () => {
@@ -132,15 +70,14 @@ const createWindow = () => {
     win.autoHideMenuBar = false;
 
     //win.webContents.openDevTools();
-
-    win.loadFile("./src/home/index.html");
+    historyStack.push("main.htlm");
+    win.loadFile("./views/main.html");
     return win;
 };
 
 app.whenReady().then(() => {
-    
-    initIPCListeners(ipcMain, db);
     mainWin = createWindow("home-window", null);
+    initIPCListeners(ipcMain, db, mainWin, historyStack);
 });
 
 app.on("window-all-closed", () => {

@@ -1,0 +1,12 @@
+
+{
+    "move_types": ["push", "pop"],
+    "window_names": [
+        "main.html",
+        "config.html",
+        "products.html",
+        "customers.html",
+        "companies.html",
+        "document_form.html"
+    ] 
+}

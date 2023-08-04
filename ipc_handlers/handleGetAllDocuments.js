@@ -8,4 +8,4 @@ function handleGetAllDocuments(db) {
     }
 }
 
-exports.handleGetAllDocuments = handleGetAllDocuments;
+module.exports = handleGetAllDocuments;
