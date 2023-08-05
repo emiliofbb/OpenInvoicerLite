@@ -1,8 +1,12 @@
 
+let documents = [];
+let docsFiltered = [];
+
 function main() {
     initElectronListeners();
     initListeners();
     loadDocuments();
+    prepareFilters();
 }
 
 window.addEventListener("load", (event) => main());
@@ -12,19 +16,31 @@ function initElectronListeners() {
 
 async function loadDocuments() {
 
-    const documents = await window.api.getAllDocuments(); 
+    documents = await window.api.getAllDocuments(); 
+    docsFiltered = documents;
     refreshDocuments(documents);
 
 }
 
-function refreshDocuments(documents) {
-    let i = 0, len = documents.length;
+function refreshDocuments() {
+    let i = 0, len = docsFiltered.length;
+    const magicalContainer = document.getElementById("magical-container");
     while (i < len) {
 
-        console.log(documents[i]);
-    
+        magicalContainer.append(createDocumentElement(docsFiltered[i]));
+
         ++i;
     }
+}
+
+function createDocumentElement(doc) {
+    
+    
+
+}
+
+function prepareFilters() {
+    
 }
 
 function initListeners() {
