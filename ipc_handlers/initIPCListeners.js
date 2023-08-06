@@ -1,3 +1,5 @@
+const handleGetAllCompanies = require("./handleGetAllCompanies");
+const handleGetAllCustomers = require("./handleGetAllCustomers");
 const handleGetAllDocuments = require("./handleGetAllDocuments");
 const handleGoTo = require("./handleGoTo");
 
@@ -6,6 +8,8 @@ function initIPCListeners(ipcMain, db, mainWin, historyStack) {
     ipcMain.handle("save-invoice", (event, document) => handleSaveDocument(db, document));
     ipcMain.handle("all-documents", (event, args) => handleGetAllDocuments(db));
     ipcMain.handle("go-to", (event,args) => handleGoTo(mainWin, historyStack, args));
+    ipcMain.handle("all-customers", (event, args) => handleGetAllCustomers(db));
+    ipcMain.handle("all-companies", (event, args) => handleGetAllCompanies(db));
 }
 
 exports.initIPCListeners = initIPCListeners;

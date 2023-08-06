@@ -25,7 +25,8 @@ function typeIsValid(type) {
 function getAllDocuments(db) {
     const stmt = db.prepare(`SELECT document.id as id, document.creation_date as creation_date, 
         document.pay_limit_date as pay_limit_date, document.type as type,
-        customer.name as customer_name, company.name as company_name 
+        customer.name as customer_name, company.name as company_name, 
+        customer.id as customer_id, company.id as company_id
         FROM document
         INNER JOIN customer ON customer.id = document.customer_id
         INNER JOIN company  ON company.id = document.company_id`);

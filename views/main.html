@@ -21,6 +21,29 @@
         </div>
     </header>
 
+    <div class="filters-container">
+        <div class="filter-component">
+            <label>Tipo de documento:</label>
+            <select id="doc-type-select">
+                <!-- TODO: Change values from strings to numbers -->
+                <option value="all">Todos los tipos</option>
+                <option value="presupuesto">Presupuesto</option>
+                <option value="factura">Factura</option>
+            </select>
+        </div>
+        <div class="filter-component">
+            <label>Empresa:</label>
+            <select id="company-select">
+                <option value="-1">Todas</option>
+            </select>
+        </div>
+        <div class="filter-component">
+            <label>Cliente:</label>
+            <select id="customer-select">
+                <option value="-1">Todos</option>
+            </select>
+        </div>
+    </div>
     <div id="magical-container">
         
     </div>
