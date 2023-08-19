@@ -3,10 +3,13 @@
     "move_types": ["push", "pop"],
     "window_names": [
         "main.html",
+        "document_form.html",
         "config.html",
         "products.html",
+        "product_form.html",
         "customers.html",
+        "customer_form.html",
         "companies.html",
-        "document_form.html"
+        "company_form.html"
     ] 
 }

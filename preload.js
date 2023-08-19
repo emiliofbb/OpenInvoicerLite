@@ -7,4 +7,6 @@ contextBridge.exposeInMainWorld("api", {
     dataInit: (callback) => ipcRenderer.on("data-init", callback),
     getAllCompanies: () => ipcRenderer.invoke("all-companies"),
     getAllCustomers: () => ipcRenderer.invoke("all-customers"),
+    getAllProducts: () => ipcRenderer.invoke("all-products"),
+
 });

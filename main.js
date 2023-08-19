@@ -70,7 +70,7 @@ const createWindow = () => {
     win.autoHideMenuBar = false;
 
     //win.webContents.openDevTools();
-    historyStack.push("main.htlm");
+    historyStack.push("main.html");
     win.loadFile("./views/main.html");
     return win;
 };
