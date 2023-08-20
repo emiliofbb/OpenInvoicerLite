@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self';">
+    <link rel="stylesheet" href="./styles/root.css" />
+    <link rel="stylesheet" href="./styles/customers.css" />
+    <title>OIL</title>
+  </head>
+  <body>
+    <span class="division-line"></span>
+    <header>
+        <div class="header-section">
+            <h1>OIL</h1>
+        </div>
+        <div class="header-section">
+            <button id="return-btn" class="header-btn">Volver</button>
+            <button id="create-btn" class="header-btn">Crear</button>
+        </div>
+    </header>
+
+    <div id="magical-container">
+        
+    </div>
+    <div id="magical-customer-element" hidden>
+        <h4 data-id="customer-number"></h4>
+        <div data-id="customer-name"></div>
+        <div data-id="customer-direction"></div>
+    </div>
+    <script src="../renderer_scripts/customers_renderer.js"></script>
+  </body>
+</html>
