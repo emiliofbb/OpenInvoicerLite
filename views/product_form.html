@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self';">
+    <link rel="stylesheet" href="./styles/root.css" />
+    <link rel="stylesheet" href="./styles/product_form.css" />
+    <title>OIL</title>
+  </head>
+  <body>
+    <span class="division-line"></span>
+    <header>
+        <div class="header-section">
+            <h1>OIL</h1>
+        </div>
+        <div class="header-section">
+            <button id="return-btn" class="header-btn">Volver</button>
+            <button id="save-btn" class="header-btn">Guardar</button>
+            <button id="delete-btn" class="header-btn" disabled>Eliminar</button>
+        </div>
+    </header>
+
+    <div id="magical-form">
+        <input hidden type="number" id="id"/> 
+        <input type="text" placeholder="Nombre del Producto" id="name"/> 
+        <input type="number" placeholder="Precio del Producto" id="price"/> 
+    </div>
+    <script src="../renderer_scripts/product_form_renderer.js"></script>
+    <script src="../renderer_scripts/product_form_renderer.js"></script>
+  </body>
+</html>
