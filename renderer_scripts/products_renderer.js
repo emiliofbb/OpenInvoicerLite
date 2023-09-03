@@ -53,7 +53,7 @@ function refreshProducts(prodsToShow) {
                 window_name: "product_form.html", 
                 move_type: "push",
                 values: {
-                    id: event.currentTarget.id 
+                    id: parseInt(event.currentTarget.id) 
                 }
             });
             console.error(error);

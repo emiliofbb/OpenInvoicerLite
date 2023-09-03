@@ -50,7 +50,7 @@ function refreshCompanies(compsToShow) {
                 window_name: "company_form.html", 
                 move_type: "push",
                 values: {
-                    id: event.currentTarget.id 
+                    id: parseInt(event.currentTarget.id) 
                 }
             });
             console.error(error);

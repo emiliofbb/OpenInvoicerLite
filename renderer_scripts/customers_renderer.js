@@ -51,7 +51,7 @@ function refreshCustomers(custsToShow) {
                 window_name: "customer_form.html", 
                 move_type: "push",
                 values: {
-                    id: event.currentTarget.id 
+                    id: parseInt(event.currentTarget.id) 
                 }
             });
             console.error(error);

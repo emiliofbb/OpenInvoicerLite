@@ -8,5 +8,8 @@ contextBridge.exposeInMainWorld("api", {
     getAllCompanies: () => ipcRenderer.invoke("all-companies"),
     getAllCustomers: () => ipcRenderer.invoke("all-customers"),
     getAllProducts: () => ipcRenderer.invoke("all-products"),
-
+    getProduct: (id) => ipcRenderer.invoke("get-product", id),
+    getCompany: (id) => ipcRenderer.invoke("get-company", id),
+    getCustomer: (id) => ipcRenderer.invoke("get-customer", id),
+    getDocument: (id) => ipcRenderer.invoke("get-document", id),
 });
