@@ -111,6 +111,7 @@ function updateDocument(db, document) {
 
     try {
         stmt.run(document.pay_limit_date, document.type, document.customer_id, document.company_id, document.id);
+        return {id: document.id};
     } catch (Err) {
         throw new Error('ER10: Error en el guardado del documento.')
     }

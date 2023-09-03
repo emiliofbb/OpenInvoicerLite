@@ -7,6 +7,10 @@ const handleGetCompany = require("./handleGetCompany");
 const handleGetCustomer = require("./handleGetCustomer");
 const handleGetDocument = require("./handleGetDocument");
 const handleGoTo = require("./handleGoTo");
+const handleDeleteProduct = require("./handleDeleteProduct");
+const handleDeleteCompany = require("./handleDeleteCompany");
+const handleDeleteCustomer = require("./handleDeleteCustomer");
+const handleDeleteDocument = require("./handleDeleteDocument");
 
 function initIPCListeners(ipcMain, db, mainWin, historyStack) {
     ipcMain.handle("company-info", (event, companyId) => handleGetCompany(db, companyId));
@@ -20,6 +24,10 @@ function initIPCListeners(ipcMain, db, mainWin, historyStack) {
     ipcMain.handle("get-company", (event, id) => handleGetCompany(db, id));
     ipcMain.handle("get-customer", (event, id) => handleGetCustomer(db, id));
     ipcMain.handle("get-document", (event, id) => handleGetDocument(db, id));
+    ipcMain.handle("delete-product", (event, id) => handleDeleteProduct(db, id));
+    ipcMain.handle("delete-company", (event, id) => handleDeleteCompany(db, id));
+    ipcMain.handle("delete-customer", (event, id) => handleDeleteCustomer(db, id));
+    ipcMain.handle("delete-document", (event, id) => handleDeleteDocument(db, id));
 }
 
 exports.initIPCListeners = initIPCListeners;

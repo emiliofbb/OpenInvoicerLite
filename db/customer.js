@@ -63,6 +63,7 @@ function updateCustomer(db, customer) {
 
     try {
         const info = stmt.run(customer.name, customer.direction, customer.city, customer.country, customer.id);        
+        return {id: customer.id};
     } catch (Err) {
         throw new Error('ER10: Error durante el guardado.');
     }

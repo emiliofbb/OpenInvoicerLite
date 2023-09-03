@@ -68,6 +68,7 @@ function updateProduct(db, product) {
 
     try {
         stmt.run(product.name, product.price, product.id);
+        return {id: product.id};
     } catch (Err) {
         throw new Error('ER10: Error al actualizar los datos.')
     }

@@ -74,6 +74,7 @@ function updateCompany(db, company) {
 
     try {
         stmt.run(company.name, company.CIF, company.email, company.telephone, company.direction, company.city, company.country, company.logo, company.id);
+        return {id: company.id};
     } catch (Err) {
         throw new Error('ER10: Error al actualizar los datos.')
     }

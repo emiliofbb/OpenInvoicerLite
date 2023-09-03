@@ -84,6 +84,7 @@ function updateDocumentLine(db, document_line) {
 
     try {
         stmt.run(document_line.quantity, document_line.product_id, document_line.document_id, document_line.id);
+        return {id: document_line.id};
     } catch (Err) {
         throw new Error('ER10: Error al actualizar los datos.')
     }

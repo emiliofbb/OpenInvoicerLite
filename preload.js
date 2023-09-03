@@ -12,4 +12,8 @@ contextBridge.exposeInMainWorld("api", {
     getCompany: (id) => ipcRenderer.invoke("get-company", id),
     getCustomer: (id) => ipcRenderer.invoke("get-customer", id),
     getDocument: (id) => ipcRenderer.invoke("get-document", id),
+    deleteProduct: (id) => ipcRenderer.invoke("delete-product", id),
+    deleteCompany: (id) => ipcRenderer.invoke("delete-company", id),
+    deleteCustomer: (id) => ipcRenderer.invoke("delete-customer", id),
+    deleteDocument: (id) => ipcRenderer.invoke("delete-document", id),
 });
