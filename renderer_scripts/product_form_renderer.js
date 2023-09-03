@@ -47,4 +47,18 @@ function initListeners() {
             console.error(result.error);
         }
     });
+
+    saveBtn.addEventListener("click", async (event) => {
+        const magicalForm = document.getElementById("magical-form");
+        const formData = getMagicalFormData(magicalForm);
+        if (!formData.id) {
+            formData.id = -1;
+        }
+        const result = await window.api.saveProduct(formData);
+        if (result.error) {
+            console.error(result.error);
+        } else {
+            idInput.value = result.id;
+        }
+    });
 }

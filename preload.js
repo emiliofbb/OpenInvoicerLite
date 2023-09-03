@@ -16,4 +16,8 @@ contextBridge.exposeInMainWorld("api", {
     deleteCompany: (id) => ipcRenderer.invoke("delete-company", id),
     deleteCustomer: (id) => ipcRenderer.invoke("delete-customer", id),
     deleteDocument: (id) => ipcRenderer.invoke("delete-document", id),
+    saveProduct: (product) => ipcRenderer.invoke("save-product", product),
+    saveCompany: (company) => ipcRenderer.invoke("save-company", company),
+    saveCustomer: (customer) => ipcRenderer.invoke("save-customer", customer),
+    saveDocument: (document) => ipcRenderer.invoke("save-document", document),
 });
