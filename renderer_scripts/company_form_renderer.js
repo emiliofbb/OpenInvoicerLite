@@ -10,10 +10,11 @@ window.addEventListener("load", (event) => main());
 
 function initElectronListeners() {
     
-    window.api.dataInit((_, values) => {loadProduct(values);});
+    window.api.dataInit((_, values) => {loadCompany(values);});
+    
 }
 
-async function loadProduct(values) {
+async function loadCompany(values) {
 
     if (!values) {
         return;
@@ -22,9 +23,9 @@ async function loadProduct(values) {
     if (!values.id || values.id === -1) {
         return;
     }
-    const product = await window.api.getProduct(values.id);
+    const company = await window.api.getCompany(values.id);
     const magicalForm = document.getElementById("magical-form");
-    setMagicalFormData(magicalForm, product);
+    setMagicalFormData(magicalForm, company);
 
 }
 
@@ -38,7 +39,7 @@ function initListeners() {
     });
 
     deleteBtn.addEventListener("click", async (event) => {
-        const result = await window.api.deleteProduct(parseInt(idInput.value));
+        const result = await window.api.deleteCompany(parseInt(idInput.value));
         if (!result) {
             const error = await window.api.goTo({move_type: "pop"});
             console.error(error);
@@ -53,7 +54,7 @@ function initListeners() {
         if (!formData.id) {
             formData.id = -1;
         }
-        const result = await window.api.saveProduct(formData);
+        const result = await window.api.saveCompany(formData);
         if (result.error) {
             console.error(result.error);
         } else {
@@ -61,3 +62,4 @@ function initListeners() {
         }
     });
 }
+

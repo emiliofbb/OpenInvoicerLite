@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self';">
+    <link rel="stylesheet" href="./styles/root.css" />
+    <link rel="stylesheet" href="./styles/product_form.css" />
+    <title>OIL</title>
+  </head>
+  <body>
+    <span class="division-line"></span>
+    <header>
+        <div class="header-section">
+            <h1>OIL</h1>
+        </div>
+        <div class="header-section">
+            <button id="return-btn" class="header-btn">Volver</button>
+            <button id="save-btn" class="header-btn">Guardar</button>
+            <button id="delete-btn" class="header-btn">Eliminar</button>
+        </div>
+    </header>
+
+    <div id="magical-form">
+        <input hidden type="number" id="id" data-type="integer"/> 
+        <input type="text" placeholder="Nombre de la Empresa" id="name" data-type="string"/> 
+        <input type="text" placeholder="CIF" id="CIF" data-type="string"/> 
+        <input type="email" placeholder="Email de la Empresa" id="email" data-type="string"/> 
+        <input type="tel" placeholder="Telefono" id="telephone" data-type="string"/> 
+        <input type="text" placeholder="Direccion" id="direction" data-type="string"/> 
+        <input type="text" placeholder="Ciudad" id="city" data-type="string"/> 
+        <input type="text" placeholder="Pais" id="country" data-type="string"/> 
+    </div>
+    <script src="../utils/MagicalForm.js"></script>
+    <script src="../renderer_scripts/company_form_renderer.js"></script>
+  </body>
+</html>
+
+

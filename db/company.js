@@ -41,10 +41,10 @@ function createCompany(db, company) {
         throw new Error('ER01: La empresa no tiene un formato adecuado.');
     }
 
-    const stmt = db.prepare('INSERT INTO company (name, CIF, email, telephone, direction, city, country, logo) VALUES (?,?,?,?,?,?,?,?)');
+    const stmt = db.prepare('INSERT INTO company (name, CIF, email, telephone, direction, city, country) VALUES (?,?,?,?,?,?,?)');
 
     try {
-        const info = stmt.run(company.name, company.CIF, company.email, company.telephone, company.direction, company.city, company.country, company.logo);
+        const info = stmt.run(company.name, company.CIF, company.email, company.telephone, company.direction, company.city, company.country);
         return info.lastInsertRowid;
     } catch(Err) {
         throw new Error('ER12: Error en la creación.');
@@ -70,14 +70,18 @@ function updateCompany(db, company) {
         throw new Error('ER01: La empresa no tiene un formato adecuado.');
     }
 
-    const stmt = db.prepare('UPDATE company SET name=?, CIF=?, email=?, telephone=?, direction=?, city=?, country=?, logo=? WHERE id=?');
+    const stmt = db.prepare('UPDATE company SET name=?, CIF=?, email=?, telephone=?, direction=?, city=?, country=? WHERE id=?');
 
     try {
-        stmt.run(company.name, company.CIF, company.email, company.telephone, company.direction, company.city, company.country, company.logo, company.id);
+        stmt.run(company.name, company.CIF, company.email, company.telephone, company.direction, company.city, company.country, company.id);
         return {id: company.id};
     } catch (Err) {
         throw new Error('ER10: Error al actualizar los datos.')
     }
+
+}
+
+function saveLogo(db, route) {
 
 }
 
@@ -86,3 +90,4 @@ exports.getCompany = getCompany;
 exports.createCompany = createCompany;
 exports.deleteCompany = deleteCompany;
 exports.updateCompany = updateCompany;
+exports.saveLogo = saveLogo;
