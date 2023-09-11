@@ -1,12 +1,10 @@
 
 function productIsValid(product) {
-    if (!product.id && 
-        !product.name && 
+    if (!product.id || 
+        !product.name || 
         !product.price
     ) {
-
         return false;
-
     }
     return true;
 }

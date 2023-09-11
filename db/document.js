@@ -1,13 +1,13 @@
 
 function documentIsValid(document) {
-    if (typeIsValid(document.type) && 
-        document.id && 
-        document.customer_id && 
-        document.company_id) {
-        return true;
+    if (!typeIsValid(document.type) || 
+        !document.id || 
+        !document.customer_id || 
+        !document.company_id) {
+        return false;
     }
 
-    return false;
+    return true;
 }
 
 function typeIsValid(type) {
@@ -148,12 +148,12 @@ function saveDocument(db, document) {
             }
             for (const dl of document.document_lines) {
                 if (!dl.quantity || !dl.product_id || !docId) {
-                    throw new Error("Error lineas del documento no validas.");
+                    throw new Error("Error líneas del documento no válidas.");
                 }
                 try {
                     insertDocumentLine.run(dl.quantity, dl.product_id, docId);
                 } catch (Err) {
-                    throw new Error("Error no se pudo guardar el documento debido a errores en el guardado de las lineas del documento.");
+                    throw new Error("Error no se pudo guardar el documento debido a errores en el guardado de las líneas del documento.");
                 }
             }
         });
@@ -167,19 +167,19 @@ function saveDocument(db, document) {
             }
             for (const dl of document.document_lines) {
                 if (!dl.id || !dl.quantity || !dl.product_id || !docId) {
-                    throw new Error("Error lineas del documento no validas.");
+                    throw new Error("Error líneas del documento no válidas.");
                 }
                 if (dl.id === -1) {
                     try {
                         insertDocumentLine.run(dl.quantity, dl.product_id, docId);
                     } catch (Err) {
-                        throw new Error("Error no se pudo guardar el documento debido a errores en el guardado de las lineas del documento.");
+                        throw new Error("Error no se pudo guardar el documento debido a errores en el guardado de las líneas del documento.");
                     }
                 } else {
                     try {
                         updateDocumentLine.run(dl.quantity, dl.product_id, d.id);
                     } catch (Err) {
-                        throw new Error("No se pudo guardar el documento. Fallo en la actualizacion de las lineas de documento.")
+                        throw new Error("No se pudo guardar el documento. Fallo en la actualización de las líneas de documento.")
                     }
                 }
             }

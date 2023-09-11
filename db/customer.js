@@ -1,15 +1,11 @@
 
 function customerIsValid(customer) {
-    if (customer.hasOwnProperty('id') &&
-        customer.hasOwnProperty('name') && 
-        customer.hasOwnProperty('direction') && 
-        customer.hasOwnProperty('city') && 
-        customer.hasOwnProperty('country')) {
-        
-        return true;
-
+    if (!customer.id ||
+        !customer.name 
+    ) {
+        return false;
     }
-    return false;
+    return true;
 }
 
 function getAllCustomers(db) {

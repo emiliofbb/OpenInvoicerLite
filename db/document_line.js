@@ -1,13 +1,11 @@
 
 function documentLineIsValid(company) {
-    if (!company.id && 
-        !company.quantity && 
-        !company.product_id && 
+    if (!company.id || 
+        !company.quantity || 
+        !company.product_id || 
         !company.document_id
     ) {
-        
         return false;
-    
     }
     return true;
 }

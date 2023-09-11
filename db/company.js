@@ -1,14 +1,8 @@
 
 function companyIsValid(company) {
-    if (!company.id && 
-        !company.name && 
-        !company.CIF && 
-        !company.email && 
-        !company.telephone &&
-        !company.direction &&
-        !company.city &&
-        !company.country &&
-        !company.logo
+    if (!company.id || 
+        !company.name || 
+        !company.CIF 
     ) {
         
         return false;
