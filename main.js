@@ -4,6 +4,7 @@ const fs = require("fs");
 const { createTablesIfNotExists } = require("./db/createTablesIfNotExists");
 const { initIPCListeners } = require("./ipc_handlers/initIPCListeners");
 const Stack = require("./utils/Stack");
+const { saveLogo } = require("./db/company");
 
 const pathToDB = path.join(app.getPath('userData'), 'oil.db');
 const db = require('better-sqlite3')(pathToDB);
@@ -32,16 +33,22 @@ async function handleLogoSelection(event, args) {
         })
         .then((result) => {
             if (result.filePaths.length === 0 || result.canceled) {
-                return "";
+                return {error: "Seleccione un logo si lo desea."};
             } else {
                 return result.filePaths[0];
             }
+        })
+        .catch(() => {
+            return {error: "Algo ha ocurrido durante la selecion del Logo."}
         });
 
-    if (rest === "") {
-        return "";
+    if (rest.error) {
+        return rest;
     }
+
     const logoBase64 = fs.readFileSync(rest).toString("base64");
+    saveLogo()
+    return {logo: logoBase64};
 }
 
 function saveInvoice(args) {

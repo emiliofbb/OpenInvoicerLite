@@ -81,8 +81,19 @@ function updateCompany(db, company) {
 
 }
 
-function saveLogo(db, route) {
+function saveLogo(db, company_id, route) {
+    if (!company_id || !route || route === "") {
+        throw new Error('ER01: Id de la empresa en mal estado o ruta no selecionada.');
+    }
 
+    const stmt = db.prepare('UPDATE company SET logo=? WHERE id=?');
+
+    try {
+        stmt.run(route, company_id);
+        return {id: company_id};
+    } catch (Err) {
+        throw new Error('ER10: Error al actualizar los datos.')
+    }
 }
 
 exports.getAllCompanies = getAllCompanies;

@@ -20,4 +20,5 @@ contextBridge.exposeInMainWorld("api", {
     saveCompany: (company) => ipcRenderer.invoke("save-company", company),
     saveCustomer: (customer) => ipcRenderer.invoke("save-customer", customer),
     saveDocument: (document) => ipcRenderer.invoke("save-document", document),
+    selectLogo: (id) => ipcRenderer.invoke("select-logo", id),
 });

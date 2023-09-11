@@ -27,12 +27,17 @@ async function loadCompany(values) {
     const magicalForm = document.getElementById("magical-form");
     setMagicalFormData(magicalForm, company);
 
+    if ( company.logo ) {
+        const logoImage = document.getElementById("logo-image");
+        logoImage.src = "data:image/png;base64, " + company.logo;
+    }
 }
 
 function initListeners() {
     const returnBtn = document.getElementById("return-btn");
     const deleteBtn = document.getElementById("delete-btn");
     const saveBtn = document.getElementById("save-btn");
+    const logoSelectionBtn = document.getElementById("logo-btn");
     
     returnBtn.addEventListener("click", async (event) => {
         console.log(await window.api.goTo({move_type: "pop"}));
@@ -59,6 +64,16 @@ function initListeners() {
             console.error(result.error);
         } else {
             idInput.value = result.id;
+        }
+    });
+
+    logoSelectionBtn.addEventListener("click", async (event) => {
+        const result = await window.api.selectLogo(parseInt(idInput.value));
+        if (!result.error) {
+            const logoImage = document.getElementById("logo-image");
+            logoImage.src = "data:image/png;base64, " + result.logo;
+        } else {
+            console.error(result.error);
         }
     });
 }
