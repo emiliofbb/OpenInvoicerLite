@@ -146,7 +146,8 @@ function saveDocument(db, document) {
             } catch (Err) {
                 throw new Error("ER10: Error en el guardado del documento.");
             }
-            for (const dl of document.document_lines) {
+            let dl;
+            for (dl of document.document_lines) {
                 if (!dl.quantity || !dl.product_id || !docId) {
                     throw new Error("Error líneas del documento no válidas.");
                 }
@@ -161,17 +162,26 @@ function saveDocument(db, document) {
     } else {
         const saveDoc = db.transaction((d) => {
             try {
-                updateDocument.run(d.creation_date, d.pay_limit_date, d.type, d.customer_id, d.company_id);
+                const updateDocument = db.prepare(`UPDATE document
+                    SET 
+                    creation_date=?,
+                    pay_limit_date=?,
+                    type=?,
+                    customer_id=?,
+                    company_id=?
+                    WHERE id=?`);
+                updateDocument.run(d.creation_date, d.pay_limit_date, d.type, d.customer_id, d.company_id, d.id);
             } catch (Err) {
                 throw new Error("ER10: Error en el guardado del documento.");
             }
-            for (const dl of document.document_lines) {
-                if (!dl.id || !dl.quantity || !dl.product_id || !docId) {
+            let dl;
+            for (dl of document.document_lines) {
+                if (!dl.id || !dl.quantity || !dl.product_id || !d.id) {
                     throw new Error("Error líneas del documento no válidas.");
                 }
                 if (dl.id === -1) {
                     try {
-                        insertDocumentLine.run(dl.quantity, dl.product_id, docId);
+                        insertDocumentLine.run(dl.quantity, dl.product_id, d.id);
                     } catch (Err) {
                         throw new Error("Error no se pudo guardar el documento debido a errores en el guardado de las líneas del documento.");
                     }

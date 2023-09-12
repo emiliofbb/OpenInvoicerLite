@@ -9,7 +9,7 @@ function setMagicalFormData(magicalFormElement, object) {
         if (!object[key]) {
             continue;
         }
-        if (input.getAttribute("data-type") === "select-id") {
+        if (input.getAttribute("data-type") === "select") {
             input.value = object[key];
         } else if (input.getAttribute("data-type") === "boolean") {
             input.checked = object[key];
@@ -59,4 +59,16 @@ function getMagicalFormData(magicalFormElement) {
     }
 
     return result;
+}
+
+function setMagicalTableData(tableBody, baseRow, rows) {
+    
+    let row;
+    let rowElem;
+    for (row of rows) {
+        rowElem = baseRow.cloneNode(true);
+        rowElem.hidden = false;
+        rowElem.id = "dl-" + row.id;
+    }
+
 }

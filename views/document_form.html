@@ -1,1 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; img-src 'self' data:;">
+    <link rel="stylesheet" href="./styles/root.css" />
+    <link rel="stylesheet" href="./styles/document_form.css" />
+    <title>OIL</title>
+  </head>
+  <body>
+    <span class="division-line"></span>
+    <header>
+        <div class="header-section">
+            <h1>OIL</h1>
+        </div>
+        <div class="header-section">
+            <button id="return-btn" class="header-btn">Volver</button>
+            <button id="save-btn" class="header-btn">Guardar</button>
+            <button id="delete-btn" class="header-btn">Eliminar</button>
+        </div>
+    </header>
+
+    <div id="magical-form">
+        <input hidden type="number" id="id" data-type="integer"/> 
+        <select data-type="select" id="company_id">
+            <option value="-1">
+                -- Selecciona una Empresa --
+            </option>
+        </select>
+        <select data-type="select" id="customer_id">
+            <option value="-1">
+                -- Selecciona un Cliente --
+            </option>
+        </select>
+        <select data-type="select" id="type">
+            <option value="Presupuesto" selected>
+                Presupuesto
+            </option>
+            <option value="Factura">
+                Factura
+            </option>
+        </select>
+        <input type="date" placeholder="Fecha Creacion del Documento" id="creation_date" data-type="date"/>
+        <input type="date" placeholder="Fecha Limite de Pago" id="pay_limit_date" data-type="date"/>
+    </div>
+    <div>
+        <input type="number" id="dl-id" hidden/>
+        <select data-type="select" id="products">
+            <option value="-1">
+                -- Selecciona un Producto --
+            </option>
+        </select>
+        <input type="number" placeholder="Cantidad" id="cantidad"/>
+        <button id="add-dl">Añadir</button>
+        <button id="modify-dl">Modificar</button>
+        <button id="remove-dl">Eliminar</button>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th hidden>Id</th>
+                <th>Cantidad</th>
+                <th>Nombre del Producto</th>
+                <th>Precio del Producto</th>
+            </tr>
+        </thead>
+        <tbody id="magical-table">
+            <tr hidden id="base-dl-row">
+                <td data-id="id" data-value="" data-type="integer" hidden></td>
+                <td data-id="quantity" data-value="" data-type="integer"></td>
+                <td data-id="product_id" data-value="" data-type="integer"></td>
+                <td data-id="prod_price"></td>
+            </tr>
+        </tbody>
+    </table>
+    <script src="../utils/MagicalForm.js"></script>
+    <script src="../renderer_scripts/document_form_renderer.js"></script>
+  </body>
+</html>
+
+
 
