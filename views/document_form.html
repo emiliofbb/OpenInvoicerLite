@@ -33,10 +33,10 @@
             </option>
         </select>
         <select data-type="select" id="type">
-            <option value="Presupuesto" selected>
+            <option value="presupuesto" selected>
                 Presupuesto
             </option>
-            <option value="Factura">
+            <option value="factura">
                 Factura
             </option>
         </select>
@@ -65,11 +65,11 @@
             </tr>
         </thead>
         <tbody id="magical-table">
-            <tr hidden id="base-dl-row">
-                <td data-id="id" data-value="" data-type="integer" hidden></td>
-                <td data-id="quantity" data-value="" data-type="integer"></td>
-                <td data-id="product_id" data-value="" data-type="integer"></td>
-                <td data-id="prod_price"></td>
+            <tr hidden id="base-dl-row" data-type="row">
+                <td data-id="id" data-type="integer" hidden></td>
+                <td data-id="quantity" data-type="integer"></td>
+                <td data-id="prod_name" data-type="string"></td>
+                <td data-id="prod_price" data-type="string"></td>
             </tr>
         </tbody>
     </table>

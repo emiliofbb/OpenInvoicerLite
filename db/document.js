@@ -57,10 +57,8 @@ function getDocument(db, id) {
     }
 
     const stmt = db.prepare(`SELECT document.id, document.creation_date, 
-        document.pay_limit_date, document.type, customer.name, company.name
+        document.pay_limit_date, document.type, document.company_id, document.customer_id
         FROM document
-        INNER JOIN customer ON customer.id = document.customer_id 
-        INNER JOIN company  ON company.id = document.company_id
         WHERE document.id=?`);
 
     const document = stmt.get(id);
@@ -123,12 +121,13 @@ function saveDocument(db, document) {
     }
 
     const insertDocumentLine = db.prepare(`INSERT INTO document_line
-        (quantity, product_id, document_id)
-        VALUES (?,?,?)`);
+        (quantity, prod_name, prod_price, document_id)
+        VALUES (?,?,?,?)`);
 
     const updateDocumentLine = db.prepare(`UPDATE document_line
         SET quantiy=?, 
-            product_id=?, 
+            prod_name=?,
+            prod_price=?,
             document_id=?
         WHERE id=?`);
 
@@ -152,7 +151,7 @@ function saveDocument(db, document) {
                     throw new Error("Error líneas del documento no válidas.");
                 }
                 try {
-                    insertDocumentLine.run(dl.quantity, dl.product_id, docId);
+                    insertDocumentLine.run(dl.quantity, dl.prod_name, dl.prod_price, docId);
                 } catch (Err) {
                     throw new Error("Error no se pudo guardar el documento debido a errores en el guardado de las líneas del documento.");
                 }
@@ -181,7 +180,7 @@ function saveDocument(db, document) {
                 }
                 if (dl.id === -1) {
                     try {
-                        insertDocumentLine.run(dl.quantity, dl.product_id, d.id);
+                        insertDocumentLine.run(dl.quantity, dl.prod_name, dl.prod_price, d.id);
                     } catch (Err) {
                         throw new Error("Error no se pudo guardar el documento debido a errores en el guardado de las líneas del documento.");
                     }

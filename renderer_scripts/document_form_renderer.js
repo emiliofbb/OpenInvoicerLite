@@ -21,10 +21,12 @@ async function loadDocument(values) {
         return;
     }
 
+    await initSelects();
+
     if (!values.id || values.id === -1) {
         return;
     }
-    initSelects();
+
     const doc = await window.api.getDocument(values.id);
     const magicalForm = document.getElementById("magical-form");
     const baseRow = document.getElementById("base-dl-row");
@@ -35,22 +37,14 @@ async function loadDocument(values) {
 
 async function initSelects() {
     
-    const products = await window.api.getAllProducts();
     const customers = await window.api.getAllCustomers();
     const companies = await window.api.getAllCompanies();
 
-    const selectProducts = document.getElementById("products");
     const selectCompanies = document.getElementById("company_id");
     const selectCustomers = document.getElementById("customer_id");
 
     let optValues;
     let opt;
-    for (optValues of products) {
-        opt = document.createElement("option");
-        opt.value = optValues.id;
-        opt.innerText = optValues.name;
-        selectProducts.append(opt);
-    }
     for (optValues of customers) {
         opt = document.createElement("option");
         opt.value = optValues.id;
@@ -92,6 +86,8 @@ function initListeners() {
         const magicalTable = document.getElementById("magical-table");
         const formData = getMagicalFormData(magicalForm);
         formData.document_lines = getMagicalTableData(magicalTable);
+        console.log(formData);
+        return;
         if (!formData.id) {
             formData.id = -1;
         }

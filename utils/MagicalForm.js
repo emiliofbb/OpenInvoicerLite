@@ -69,6 +69,49 @@ function setMagicalTableData(tableBody, baseRow, rows) {
         rowElem = baseRow.cloneNode(true);
         rowElem.hidden = false;
         rowElem.id = "dl-" + row.id;
+
+        for (key in row) {
+            rowElem.querySelector('[data-id="' + key + '"]');
+        }
+
+        tableBody.append(rowElem);
     }
 
+}
+
+function getMagicalTableData(magicalTable) {
+    let tableData = []; 
+
+    const rows = magicalTable.querySelectorAll('[data-type="row"]');
+    let row;
+    let cols;
+    let col;
+    let object;
+    let value;
+    for (row of rows) {
+        object = {};
+        cols = row.querySelectorAll('[data-id]');
+        for (col of cols) {
+            switch(col.getAttribute('data-type')) {
+                case "integer":
+                    value = parseInt(col.innerText);
+                    break;
+                case "float":
+                    value = parseFloat(col.innerText);
+                    break;
+                case "string":
+                    value = col.innerText;
+                    break;
+                case "date":
+                    value = new Date(col.innerText).toISOString().substring(0,10);
+                    break;
+                default:
+                    value = null;
+                    break;
+            }
+            object[col.getAttribute("data-id")] = value;
+        }
+        tableData.push(object);
+    }
+    return tableData;
 }

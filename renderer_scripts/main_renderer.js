@@ -182,11 +182,15 @@ function recalculateFilters() {
 }
 
 function initListeners() {
+    const createDocBtn = document.getElementById("create-doc-btn");
     const companiesBtn = document.getElementById("companies-btn");
     const customersBtn = document.getElementById("customers-btn");
     const productsBtn = document.getElementById("products-btn");
     const configBtn = document.getElementById("config-btn");
     
+    createDocBtn.addEventListener("click", async (event) => {
+        console.log(await window.api.goTo({window_name: "document_form.html", move_type: "push", values: {id: -1}}));
+    })
     companiesBtn.addEventListener("click", async (event) => {
         console.log(await window.api.goTo({window_name: "companies.html", move_type: "push"}));
     })

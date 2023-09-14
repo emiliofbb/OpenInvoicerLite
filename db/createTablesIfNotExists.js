@@ -45,10 +45,9 @@ function createTablesIfNotExists(db) {
         `CREATE TABLE IF NOT EXISTS document_line(
             id INTEGER PRIMARY KEY UNIQUE,
             quantity INTEGER NOT NULL,
-            total_price,
-            product_id INTEGER NOT NULL,
+            prod_name TEXT NOT NULL,
+            prod_price REAL NOT NULL,
             document_id INTEGER NOT NULL,
-            FOREIGN KEY(product_id) REFERENCES product(id)
             FOREIGN KEY(document_id) REFERENCES document(id) ON DELETE CASCADE
         )`)
 
@@ -56,7 +55,7 @@ function createTablesIfNotExists(db) {
         createTableCustomerStmt.run();
         createTableCompanyStmt.run();
         createTableDocumentStmt.run();
-        createTableProductStmt.run();
+        //createTableProductStmt.run();
         createTableDocumentLineStmt.run();
     } catch(Error) {
         return false;
