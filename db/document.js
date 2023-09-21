@@ -1,3 +1,4 @@
+const { documentLineIsValid } = require("./document_line");
 
 function documentIsValid(document) {
     if (!typeIsValid(document.type) || 
@@ -121,14 +122,15 @@ function saveDocument(db, document) {
     }
 
     const insertDocumentLine = db.prepare(`INSERT INTO document_line
-        (quantity, prod_name, prod_price, document_id)
-        VALUES (?,?,?,?)`);
+        (quantity, prod_name, prod_price, document_id, iva)
+        VALUES (?,?,?,?,?)`);
 
     const updateDocumentLine = db.prepare(`UPDATE document_line
         SET quantiy=?, 
             prod_name=?,
             prod_price=?,
-            document_id=?
+            document_id=?,
+            iva=?
         WHERE id=?`);
 
     if (document.id === -1) {
@@ -147,11 +149,15 @@ function saveDocument(db, document) {
             }
             let dl;
             for (dl of document.document_lines) {
-                if (!dl.quantity || !dl.product_id || !docId) {
+                if (!documentLineIsValid(dl)) {
                     throw new Error("Error líneas del documento no válidas.");
                 }
                 try {
-                    insertDocumentLine.run(dl.quantity, dl.prod_name, dl.prod_price, docId);
+                    if (dl.id === -1) {
+                        insertDocumentLine.run(dl.quantity, dl.prod_name, dl.prod_price, docId, dl.iva);
+                    } else {
+                        updateDocumentLine.run(dl.quantity, dl.prod_name, dl.prod_price, docId, dl.iva, dl.id);
+                    }
                 } catch (Err) {
                     throw new Error("Error no se pudo guardar el documento debido a errores en el guardado de las líneas del documento.");
                 }
@@ -178,18 +184,14 @@ function saveDocument(db, document) {
                 if (!dl.id || !dl.quantity || !dl.product_id || !d.id) {
                     throw new Error("Error líneas del documento no válidas.");
                 }
-                if (dl.id === -1) {
-                    try {
-                        insertDocumentLine.run(dl.quantity, dl.prod_name, dl.prod_price, d.id);
-                    } catch (Err) {
-                        throw new Error("Error no se pudo guardar el documento debido a errores en el guardado de las líneas del documento.");
+                try {
+                    if (dl.id === -1) {
+                        insertDocumentLine.run(dl.quantity, dl.prod_name, dl.prod_price, docId, dl.iva);
+                    } else {
+                        updateDocumentLine.run(dl.quantity, dl.prod_name, dl.prod_price, docId, dl.iva, dl.id);
                     }
-                } else {
-                    try {
-                        updateDocumentLine.run(dl.quantity, dl.product_id, d.id);
-                    } catch (Err) {
-                        throw new Error("No se pudo guardar el documento. Fallo en la actualización de las líneas de documento.")
-                    }
+                } catch (Err) {
+                    throw new Error("Error no se pudo guardar el documento debido a errores en el guardado de las líneas del documento.");
                 }
             }
         });

@@ -61,7 +61,7 @@ function getMagicalFormData(magicalFormElement) {
     return result;
 }
 
-function setMagicalTableData(tableBody, baseRow, rows) {
+function setMagicalTableData(tableBody, baseRow, rows, callback) {
     
     let row;
     let rowElem;
@@ -70,9 +70,16 @@ function setMagicalTableData(tableBody, baseRow, rows) {
         rowElem.hidden = false;
         rowElem.id = "dl-" + row.id;
 
+        let key;
+        let col;
         for (key in row) {
-            rowElem.querySelector('[data-id="' + key + '"]');
+            col = rowElem.querySelector('[data-id="' + key + '"]');
+            col.innerText = row[key];
         }
+
+        rowElem.addEventListener("click", (_) => {
+            callback(row);
+        });
 
         tableBody.append(rowElem);
     }
@@ -89,6 +96,9 @@ function getMagicalTableData(magicalTable) {
     let object;
     let value;
     for (row of rows) {
+        if (row.id === "base-dl-row") {
+            continue; 
+        }
         object = {};
         cols = row.querySelectorAll('[data-id]');
         for (col of cols) {

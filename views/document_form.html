@@ -44,13 +44,10 @@
         <input type="date" placeholder="Fecha Limite de Pago" id="pay_limit_date" data-type="date"/>
     </div>
     <div>
-        <input type="number" id="dl-id" hidden/>
-        <select data-type="select" id="products">
-            <option value="-1">
-                -- Selecciona un Producto --
-            </option>
-        </select>
-        <input type="number" placeholder="Cantidad" id="cantidad"/>
+        <input type="text" id="dl-prod-name" placeholder="Nombre del Producto"/>
+        <input type="number" placeholder="Cantidad" id="dl-quantity"/>
+        <input type="number" placeholder="Precio" id="dl-price"/>
+        <input type="number" placeholder="IVA%" id="dl-iva"/>
         <button id="add-dl">Añadir</button>
         <button id="modify-dl">Modificar</button>
         <button id="remove-dl">Eliminar</button>
@@ -59,17 +56,19 @@
         <thead>
             <tr>
                 <th hidden>Id</th>
-                <th>Cantidad</th>
                 <th>Nombre del Producto</th>
                 <th>Precio del Producto</th>
+                <th>Cantidad</th>
+                <th>IVA</th>
             </tr>
         </thead>
         <tbody id="magical-table">
             <tr hidden id="base-dl-row" data-type="row">
                 <td data-id="id" data-type="integer" hidden></td>
-                <td data-id="quantity" data-type="integer"></td>
                 <td data-id="prod_name" data-type="string"></td>
-                <td data-id="prod_price" data-type="string"></td>
+                <td data-id="prod_price" data-type="float"></td>
+                <td data-id="quantity" data-type="integer"></td>
+                <td data-id="iva" data-type="integer"></td>
             </tr>
         </tbody>
     </table>

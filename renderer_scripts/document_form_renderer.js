@@ -32,7 +32,7 @@ async function loadDocument(values) {
     const baseRow = document.getElementById("base-dl-row");
     const magicalTable = document.getElementById("magical-table");
     setMagicalFormData(magicalForm, doc);
-    setMagicalTableData(magicalTable, baseRow, doc.document_lines);
+    setMagicalTableData(magicalTable, baseRow, doc.document_lines, loadDataInProdInputs);
 }
 
 async function initSelects() {
@@ -86,8 +86,6 @@ function initListeners() {
         const magicalTable = document.getElementById("magical-table");
         const formData = getMagicalFormData(magicalForm);
         formData.document_lines = getMagicalTableData(magicalTable);
-        console.log(formData);
-        return;
         if (!formData.id) {
             formData.id = -1;
         }
@@ -115,5 +113,14 @@ function initListeners() {
     modifyDLBtn.addEventListener("click", async (event) => {
         // TODO: Modify line in the table
     });
+
+}
+
+function loadDataInProdInputs(item) {
+
+    document.getElementById();
+    document.getElementById();
+    document.getElementById();
+    document.getElementById();
 
 }

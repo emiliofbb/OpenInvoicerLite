@@ -48,6 +48,7 @@ function createTablesIfNotExists(db) {
             prod_name TEXT NOT NULL,
             prod_price REAL NOT NULL,
             document_id INTEGER NOT NULL,
+            iva INTEGER NOT NULL,
             FOREIGN KEY(document_id) REFERENCES document(id) ON DELETE CASCADE
         )`)
 
