@@ -24,6 +24,23 @@ function getAllDocumentLinesByDocId(db, id) {
     return document_lines;
 }
 
+function getAllDLIdsByDocId(db, id) {
+    if (!id) {
+        throw new Error('ER20: Necesitas un identificador del documento.');
+    }
+    const stmt = db.prepare(`SELECT id
+        FROM document_line 
+        WHERE document_id=?`);
+    const document_lines = stmt.all(id);
+    
+    let dl;
+    const arrayIds = [];
+    for (dl of document_lines) {
+        arrayIds.push(dl.id);
+    }
+    return arrayIds;
+}
+
 function getDocumentLine(db, id) {
     
     if (!id) {
@@ -97,3 +114,4 @@ exports.createDocumentLine = createDocumentLine;
 exports.deleteDocumentLine = deleteDocumentLine;
 exports.updateDocumentLine = updateDocumentLine;
 exports.documentLineIsValid = documentLineIsValid;
+exports.getAllDLIdsByDocId = getAllDLIdsByDocId;

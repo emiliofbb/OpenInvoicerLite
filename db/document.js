@@ -1,4 +1,4 @@
-const { documentLineIsValid } = require("./document_line");
+const { documentLineIsValid, getAllDLIdsByDocId} = require("./document_line");
 
 function documentIsValid(document) {
     if (!typeIsValid(document.type) || 
@@ -133,6 +133,8 @@ function saveDocument(db, document) {
             iva=?
         WHERE id=?`);
 
+    const deleteDocumentLine = db.prepare(`DELETE FROM document_line WHERE id=?`);
+
     if (document.id === -1) {
 
         const insertDocument = db.prepare(`INSERT INTO document
@@ -165,6 +167,15 @@ function saveDocument(db, document) {
         });
         saveDoc(document);
     } else {
+        const actualDLs = getAllDLIdsByDocId(db, document.id);
+        const dlsToDelete = [];
+        let dlVar;
+        for (dlVar of document.document_lines) {
+            if (!actualDLs.includes(dlVar.id) && dlVar.id > 0) {
+                dlsToDelete.push(dlVar.id);
+            }
+        }
+
         const saveDoc = db.transaction((d) => {
             try {
                 const updateDocument = db.prepare(`UPDATE document
@@ -180,6 +191,9 @@ function saveDocument(db, document) {
                 throw new Error("ER10: Error en el guardado del documento.");
             }
             let dl;
+            for (dl of dlsToDelete) {
+                deleteDocumentLine.run(dl);
+            }
             for (dl of document.document_lines) {
                 if (!dl.id || !dl.quantity || !dl.product_id || !d.id) {
                     throw new Error("Error líneas del documento no válidas.");

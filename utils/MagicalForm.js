@@ -64,24 +64,8 @@ function getMagicalFormData(magicalFormElement) {
 function setMagicalTableData(tableBody, baseRow, rows, callback) {
     
     let row;
-    let rowElem;
     for (row of rows) {
-        rowElem = baseRow.cloneNode(true);
-        rowElem.hidden = false;
-        rowElem.id = "dl-" + row.id;
-
-        let key;
-        let col;
-        for (key in row) {
-            col = rowElem.querySelector('[data-id="' + key + '"]');
-            col.innerText = row[key];
-        }
-
-        rowElem.addEventListener("click", (_) => {
-            callback(row);
-        });
-
-        tableBody.append(rowElem);
+        createNewRowInMagicalTable(tableBody, baseRow, row, callback);
     }
 
 }
@@ -105,6 +89,9 @@ function getMagicalTableData(magicalTable) {
             switch(col.getAttribute('data-type')) {
                 case "integer":
                     value = parseInt(col.innerText);
+                    if (col.getAttribute('data-id') === "id" && value < 0) {
+                        value = -1;
+                    }
                     break;
                 case "float":
                     value = parseFloat(col.innerText);
@@ -124,4 +111,27 @@ function getMagicalTableData(magicalTable) {
         tableData.push(object);
     }
     return tableData;
+}
+
+function createNewRowInMagicalTable(tableBody, baseRow, row, callback) {
+
+    let rowElem;
+
+    rowElem = baseRow.cloneNode(true);
+    rowElem.hidden = false;
+    rowElem.id = "dl-" + row.id;
+
+    let key;
+    let col;
+    for (key in row) {
+        col = rowElem.querySelector('[data-id="' + key + '"]');
+        col.innerText = row[key];
+    }
+
+    rowElem.addEventListener("click", (_) => {
+        callback(row);
+    });
+
+    tableBody.append(rowElem);
+
 }

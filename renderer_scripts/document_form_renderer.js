@@ -1,6 +1,4 @@
 
-const idInput = document.getElementById("id");
-const idDL = document.getElementById("dl-id");
 
 function main() {
     initElectronListeners();
@@ -66,7 +64,9 @@ function initListeners() {
     const deleteDLBtn = document.getElementById("remove-dl");
     const addDLBtn = document.getElementById("add-dl");
     const modifyDLBtn = document.getElementById("modify-dl");
-    
+    const idInput = document.getElementById("id");
+    const idDL = document.getElementById("dl-id");
+
     returnBtn.addEventListener("click", async (event) => {
         console.log(await window.api.goTo({move_type: "pop"}));
     });
@@ -98,12 +98,7 @@ function initListeners() {
     });
 
     deleteDLBtn.addEventListener("click", async (event) => {
-        const result = await window.api.deleteDocumentLine(parseInt(idDL.value));
-        if (!result) {
-            // TODO: Delete line from table
-        } else {
-            console.error(result.error);
-        }
+        // TODO: Delete line from table
     });
 
     addDLBtn.addEventListener("click", async (event) => {
