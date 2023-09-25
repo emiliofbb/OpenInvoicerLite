@@ -85,6 +85,7 @@ function initListeners() {
         const magicalForm = document.getElementById("magical-form");
         const magicalTable = document.getElementById("magical-table");
         const formData = getMagicalFormData(magicalForm);
+        console.log(formData);
         formData.document_lines = getMagicalTableData(magicalTable);
         if (!formData.id) {
             formData.id = -1;

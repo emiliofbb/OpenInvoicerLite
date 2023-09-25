@@ -41,7 +41,11 @@ function getMagicalFormData(magicalFormElement) {
                 value = !!input.checked;
                 break;
             case "date":
-                value = new Date(input.value).toISOString().substring(0,10);
+                try {
+                    value = new Date(input.value).toISOString().substring(0,10);
+                } catch (Err) {
+                    value = null;
+                }
                 break;
             default:
                 value = null;
@@ -52,7 +56,11 @@ function getMagicalFormData(magicalFormElement) {
 
     for (input of selects) {
         if (!parseInt(input.value)) {
-            result[input.id] = null;
+            if (input.value === "presupuesto" || input.value === "factura") {
+                result[input.id] = input.value;
+            } else {
+                result[input.id] = null;
+            }
         } else {
             result[input.id] = parseInt(input.value);
         }
@@ -100,7 +108,11 @@ function getMagicalTableData(magicalTable) {
                     value = col.innerText;
                     break;
                 case "date":
-                    value = new Date(col.innerText).toISOString().substring(0,10);
+                    try {
+                        value = new Date(input.value).toISOString().substring(0,10);
+                    } catch (Err) {
+                        value = undefined;
+                    }
                     break;
                 default:
                     value = null;

@@ -24,7 +24,7 @@ function typeIsValid(type) {
 }
 
 function getAllDocuments(db) {
-    const stmt = db.prepare(`SELECT document.id as id, document.creation_date as creation_date, 
+    const stmt = db.prepare(`SELECT document.id as id, document.code as code, document.creation_date as creation_date, 
         document.pay_limit_date as pay_limit_date, document.type as type,
         customer.name as customer_name, company.name as company_name, 
         customer.id as customer_id, company.id as company_id
@@ -57,7 +57,7 @@ function getDocument(db, id) {
         throw new Error('ER20: Identificador del documento no especificado.');
     }
 
-    const stmt = db.prepare(`SELECT document.id, document.creation_date, 
+    const stmt = db.prepare(`SELECT document.id, document.code, document.creation_date, 
         document.pay_limit_date, document.type, document.company_id, document.customer_id
         FROM document
         WHERE document.id=?`);
@@ -71,11 +71,11 @@ function createDocument(db, document) {
         throw new Error('ER01: El documento no es correcto. Revise los datos.')
     }
     const stmt = db.prepare(`INSERT INTO document
-        (creation_date, pay_limit_date, type, customer_id, company_id)
-        VALUES(?,?,?,?,?)`);
+        (code, creation_date, pay_limit_date, type, customer_id, company_id)
+        VALUES(?,?,?,?,?,?)`);
 
     try {
-        const info = stmt.run(document.creation_date, document.pay_limit_date, document.type, document.customer_id, document.company_id);
+        const info = stmt.run(document.code, document.creation_date, document.pay_limit_date, document.type, document.customer_id, document.company_id);
         return info.lastInsertRowid;
     } catch(Err) {
         throw new Error('ER12: Error al insertar. Compruebe los datos o reporte el bug.')
@@ -102,14 +102,15 @@ function updateDocument(db, document) {
     }
 
     const stmt = db.prepare(`UPDATE document
-        SET pay_limit_date=?,
+        SET code=?,
+            pay_limit_date=?,
             type=?,
             customer_id=?,
             company_id=?
         WHERE id=?`);
 
     try {
-        stmt.run(document.pay_limit_date, document.type, document.customer_id, document.company_id, document.id);
+        stmt.run(document.code, document.pay_limit_date, document.type, document.customer_id, document.company_id, document.id);
         return {id: document.id};
     } catch (Err) {
         throw new Error('ER10: Error en el guardado del documento.')
@@ -126,7 +127,7 @@ function saveDocument(db, document) {
         VALUES (?,?,?,?,?)`);
 
     const updateDocumentLine = db.prepare(`UPDATE document_line
-        SET quantiy=?, 
+        SET quantity=?, 
             prod_name=?,
             prod_price=?,
             document_id=?,
@@ -138,13 +139,13 @@ function saveDocument(db, document) {
     if (document.id === -1) {
 
         const insertDocument = db.prepare(`INSERT INTO document
-            (creation_date, pay_limit_date, type, customer_id, company_id)
-            VALUES(?,?,?,?,?)`);
+            (code, creation_date, pay_limit_date, type, customer_id, company_id)
+            VALUES(?,?,?,?,?,?)`);
 
+        let docId = null;
         const saveDoc = db.transaction((d) => {
-            let docId = null;
             try {
-                const info = insertDocument.run(d.creation_date, d.pay_limit_date, d.type, d.customer_id, d.company_id);
+                const info = insertDocument.run(d.code, d.creation_date, d.pay_limit_date, d.type, d.customer_id, d.company_id);
                 docId = info.lastInsertRowid;
             } catch (Err) {
                 throw new Error("ER10: Error en el guardado del documento.");
@@ -155,17 +156,14 @@ function saveDocument(db, document) {
                     throw new Error("Error líneas del documento no válidas.");
                 }
                 try {
-                    if (dl.id === -1) {
-                        insertDocumentLine.run(dl.quantity, dl.prod_name, dl.prod_price, docId, dl.iva);
-                    } else {
-                        updateDocumentLine.run(dl.quantity, dl.prod_name, dl.prod_price, docId, dl.iva, dl.id);
-                    }
+                    insertDocumentLine.run(dl.quantity, dl.prod_name, dl.prod_price, docId, dl.iva);
                 } catch (Err) {
                     throw new Error("Error no se pudo guardar el documento debido a errores en el guardado de las líneas del documento.");
                 }
             }
         });
         saveDoc(document);
+        return {id: docId};
     } else {
         const actualDLs = getAllDLIdsByDocId(db, document.id);
         const dlsToDelete = [];
@@ -180,13 +178,14 @@ function saveDocument(db, document) {
             try {
                 const updateDocument = db.prepare(`UPDATE document
                     SET 
+                    code=?,
                     creation_date=?,
                     pay_limit_date=?,
                     type=?,
                     customer_id=?,
                     company_id=?
                     WHERE id=?`);
-                updateDocument.run(d.creation_date, d.pay_limit_date, d.type, d.customer_id, d.company_id, d.id);
+                updateDocument.run(d.code, d.creation_date, d.pay_limit_date, d.type, d.customer_id, d.company_id, d.id);
             } catch (Err) {
                 throw new Error("ER10: Error en el guardado del documento.");
             }
@@ -210,6 +209,7 @@ function saveDocument(db, document) {
             }
         });
         saveDoc(document);
+        return {id: document.id};
     }
 }
 

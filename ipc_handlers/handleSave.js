@@ -38,7 +38,7 @@ function handleSaveDocument(db, document) {
         if (!document) {
             return {error: "Debes proporcionar un documento para poder guardar."};
         }
-        saveDocument(db, document);
+        return saveDocument(db, document);
     } catch(Err) {
         return {error: Err.message};
     }

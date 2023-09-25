@@ -25,6 +25,7 @@ function createTablesIfNotExists(db) {
     const createTableDocumentStmt = db.prepare(
         `CREATE TABLE IF NOT EXISTS document(
             id INTEGER PRIMARY KEY UNIQUE,
+            code TEXT,
             creation_date INTEGER,
             type TEXT NOT NULL,
             pay_limit_date INTERGER,
