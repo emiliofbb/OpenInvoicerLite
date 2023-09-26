@@ -45,11 +45,11 @@ function createTablesIfNotExists(db) {
     const createTableDocumentLineStmt = db.prepare(
         `CREATE TABLE IF NOT EXISTS document_line(
             id INTEGER PRIMARY KEY UNIQUE,
-            quantity INTEGER NOT NULL,
+            quantity REAL NOT NULL,
             prod_name TEXT NOT NULL,
             prod_price REAL NOT NULL,
             document_id INTEGER NOT NULL,
-            iva INTEGER NOT NULL,
+            iva REAL NOT NULL,
             FOREIGN KEY(document_id) REFERENCES document(id) ON DELETE CASCADE
         )`)
 

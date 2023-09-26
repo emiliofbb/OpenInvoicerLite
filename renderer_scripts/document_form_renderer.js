@@ -61,11 +61,7 @@ function initListeners() {
     const returnBtn = document.getElementById("return-btn");
     const deleteBtn = document.getElementById("delete-btn");
     const saveBtn = document.getElementById("save-btn");
-    const deleteDLBtn = document.getElementById("remove-dl");
-    const addDLBtn = document.getElementById("add-dl");
-    const modifyDLBtn = document.getElementById("modify-dl");
     const idInput = document.getElementById("id");
-    const idDL = document.getElementById("dl-id");
 
     returnBtn.addEventListener("click", async (event) => {
         console.log(await window.api.goTo({move_type: "pop"}));
@@ -98,25 +94,119 @@ function initListeners() {
         }
     });
 
+    initFormDocumentLinesListeners();
+
+}
+
+function initFormDocumentLinesListeners() {
+    const deleteDLBtn = document.getElementById("remove-dl");
+    const addDLBtn = document.getElementById("add-dl");
+    const modifyDLBtn = document.getElementById("modify-dl");
+    const baseRow = document.getElementById("base-dl-row");
+    const magicalTable = document.getElementById("magical-table");
+
+    const idDL = document.getElementById("dl-id");
+    const prodName = document.getElementById("dl-prod-name");
+    const prodPrice = document.getElementById("dl-price");
+    const prodQuantity = document.getElementById("dl-quantity");
+    const iva = document.getElementById("dl-iva");
+    let newDLId = -1;
+
     deleteDLBtn.addEventListener("click", async (event) => {
-        // TODO: Delete line from table
+        if (idDL.value === "not-set") {
+            return;
+        } else {
+
+            const rowToDelete = document.getElementById("dl-" + idDL.value);
+            rowToDelete.remove();
+
+            idDL.value = "not-set";
+            prodName.value = "";
+            prodPrice.value = "";
+            prodQuantity.value = "";
+            iva.value = "";
+        }
     });
 
     addDLBtn.addEventListener("click", async (event) => {
-        // TODO: Add new line to table
+        if (
+            prodName.value === "" || 
+            prodPrice.value === "" ||
+            prodQuantity.value === "" ||
+            iva.value === ""
+        ) {
+            return;
+        }
+        if (
+            Number.isNaN(parseFloat(prodQuantity.value)) ||
+            Number.isNaN(parseFloat(iva.value)) ||
+            Number.isNaN(parseFloat(prodPrice.value))
+        ) {
+            console.log("Peto aqui jeje");
+            return;
+        }
+        const newDL = {};
+        newDL.id = newDLId--;
+        newDL.prod_name = prodName.value;
+        newDL.prod_price = parseFloat(prodPrice.value);
+        newDL.quantity = parseFloat(prodQuantity.value);
+        newDL.iva = parseFloat(iva.value);
+        createNewRowInMagicalTable(magicalTable, baseRow, newDL, loadDataInProdInputs)
+
+        idDL.value = "not-set";
+        prodName.value = "";
+        prodPrice.value = "";
+        prodQuantity.value = "";
+        iva.value = "";
     });
 
     modifyDLBtn.addEventListener("click", async (event) => {
         // TODO: Modify line in the table
     });
-
 }
 
 function loadDataInProdInputs(item) {
 
-    document.getElementById();
-    document.getElementById();
-    document.getElementById();
-    document.getElementById();
+    const idDL = document.getElementById("dl-id");
+    const prodName = document.getElementById("dl-prod-name");
+    const prodPrice = document.getElementById("dl-price");
+    const prodQuantity = document.getElementById("dl-quantity");
+    const iva = document.getElementById("dl-iva");
 
+    const actualRow = document.getElementById("dl-" + item.id);
+    if (parseInt(idDL.value) === item.id) {
+        
+        idDL.value = "not-set";
+        prodName.value = "";
+        prodPrice.value = "";
+        prodQuantity.value = "";
+        iva.value = "";
+
+        return;
+        // TODO: Show that row is now unselected  
+    }
+    if (!Number.isInteger(parseInt(idDL.value))) {
+        
+        idDL.value = item.id;
+        prodName.value = item.prod_name;
+        prodPrice.value = item.prod_price;
+        prodQuantity.value = item.quantity;
+        iva.value = item.iva;
+
+        return;
+
+        // TODO: Show that the current row is selected
+    }
+    if (parseInt(idDL.value) !== item.id) {
+        
+        idDL.value = item.id;
+        prodName.value = item.prod_name;
+        prodPrice.value = item.prod_price;
+        prodQuantity.value = item.quantity;
+        iva.value = iva;
+
+        return;
+
+        // TODO: Show that the current row is selected
+    }
 }
