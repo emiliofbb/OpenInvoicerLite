@@ -147,3 +147,14 @@ function createNewRowInMagicalTable(tableBody, baseRow, row, callback) {
     tableBody.append(rowElem);
 
 }
+
+function modifyRowInMagicalTable(row, item) {
+
+    let key;
+    let col;
+    for (key in item) {
+        col = row.querySelector('[data-id="' + key + '"]');
+        col.innerText = item[key];
+    }
+
+}

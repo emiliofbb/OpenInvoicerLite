@@ -129,22 +129,11 @@ function initFormDocumentLinesListeners() {
     });
 
     addDLBtn.addEventListener("click", async (event) => {
-        if (
-            prodName.value === "" || 
-            prodPrice.value === "" ||
-            prodQuantity.value === "" ||
-            iva.value === ""
-        ) {
+
+        if (!validateProduct(prodName, prodPrice, prodQuantity, iva)) {
             return;
         }
-        if (
-            Number.isNaN(parseFloat(prodQuantity.value)) ||
-            Number.isNaN(parseFloat(iva.value)) ||
-            Number.isNaN(parseFloat(prodPrice.value))
-        ) {
-            console.log("Peto aqui jeje");
-            return;
-        }
+
         const newDL = {};
         newDL.id = newDLId--;
         newDL.prod_name = prodName.value;
@@ -161,8 +150,59 @@ function initFormDocumentLinesListeners() {
     });
 
     modifyDLBtn.addEventListener("click", async (event) => {
-        // TODO: Modify line in the table
+        if (idDL.value === "not-set") {
+            return;
+        } else {
+
+            const rowToModify = document.getElementById("dl-" + idDL.value);
+
+            if (!rowToModify) {
+                return;
+            }
+
+            if (!validateProduct(prodName, prodPrice, prodQuantity, iva)) {
+                return;
+            }
+
+            const item = {};
+
+            item.id = idDL.value;
+            item.prod_name = prodName.value;
+            item.prod_price = prodPrice.value;
+            item.quantity = prodQuantity.value;
+            item.iva = iva.value
+
+            modifyRowInMagicalTable(rowToModify, item);
+
+            idDL.value = "not-set";
+            prodName.value = "";
+            prodPrice.value = "";
+            prodQuantity.value = "";
+            iva.value = "";
+        }
     });
+}
+
+function validateProduct( prodName, prodPrice, prodQuantity, iva) {
+
+    if (
+        prodName.value === "" || 
+        prodPrice.value === "" ||
+        prodQuantity.value === "" ||
+        iva.value === ""
+    ) {
+        return false;
+    }
+    if (
+        Number.isNaN(parseFloat(prodQuantity.value)) ||
+        Number.isNaN(parseFloat(iva.value)) ||
+        Number.isNaN(parseFloat(prodPrice.value))
+    ) {
+        return false;
+    }
+
+    return true
+
 }
 
 function loadDataInProdInputs(item) {
